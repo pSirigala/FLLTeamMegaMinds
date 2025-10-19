@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Project EARTHGUARD • Team Megaminds • FLL 2025</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --lego-red:#D91E1E;
+      --lego-blue:#0055BF;
+      --lego-yellow:#FFD700;
+      --lego-green:#00A651;
+      --lego-orange:#FF6700;
+      --bg:#1a0033;
+      --card-bg:linear-gradient(135deg, #2d1b69 0%, #1a0033 100%);
+      --text:#ffffff;
+      --muted:#b8b8ff;
+      --accent:#00f2ff;
+      --glow:0 0 20px rgba(0,242,255,0.3);
+      --brick-shadow:0 6px 0 rgba(0,0,0,0.3), 0 8px 20px rgba(0,0,0,0.4);
+    }
+    
+    *{box-sizing:border-box;margin:0;padding:0}
+    
+    body{
+      margin:0;
+      background:linear-gradient(135deg, #1a0033 0%, #0f001a 50%, #2d1b69 100%);
+      background-attachment:fixed;
+      color:var(--text);
+      font-family:'Poppins',sans-serif;
+      position:relative;
+      overflow-x:hidden;
+    }
+    
+    body::before{
+      content:'';
+      position:fixed;
+      top:0;
+      left:0;
+      right:0;
+      bottom:0;
+      background-image:
+        radial-gradient(circle at 20% 50%, rgba(217,30,30,0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(0,85,191,0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 20%, rgba(255,215,0,0.08) 0%, transparent 50%);
+      pointer-events:none;
+      z-index:0;
+    }
+    
+    nav{
+      background:rgba(26,0,51,0.95);
+      border-bottom:3px solid var(--accent);
+      padding:20px 0;
+      position:sticky;
+      top:0;
+      z-index:100;
+      backdrop-filter:blur(10px);
+    }
+    
+    nav .container{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      max-width:1200px;
+      margin:0 auto;
+      padding:0 20px;
+    }
+    
+    nav .logo{
+      font-size:24px;
+      font-weight:900;
+      background:linear-gradient(90deg, var(--lego-yellow), var(--lego-orange));
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+      background-clip:text;
+    }
+    
+    nav ul{
+      display:flex;
+      gap:30px;
+      list-style:none;
+      margin:0;
+      padding:0;
+    }
+    
+    nav a{
+      color:var(--text);
+      text-decoration:none;
+      font-weight:600;
+      transition:all 0.3s ease;
+      padding:8px 16px;
+      border-radius:8px;
+    }
+    
+    nav a:hover, nav a.active{
+      background:var(--accent);
+      color:#1a0033;
+      box-shadow:0 0 15px rgba(0,242,255,0.5);
+    }
+    
+    .container{
+      max-width:1200px;
+      margin:0 auto;
+      padding:50px 20px;
+      position:relative;
+      z-index:1;
+    }
+    
+    .hero{
+      text-align:center;
+      margin-bottom:50px;
+    }
+    
+    .hero h1{
+      font-size:56px;
+      font-weight:900;
+      margin-bottom:15px;
+      background:linear-gradient(90deg, var(--lego-yellow), var(--lego-orange), var(--lego-red));
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+      background-clip:text;
+      text-transform:uppercase;
+      letter-spacing:3px;
+      filter:drop-shadow(0 0 10px rgba(255,215,0,0.5));
+      animation:glow 2s ease-in-out infinite alternate;
+    }
+    
+    .hero .subtitle{
+      font-size:24px;
+      color:var(--accent);
+      font-weight:600;
+      font-style:italic;
+      margin-bottom:10px;
+    }
+    
+    .hero .theme{
+      font-size:16px;
+      color:var(--muted);
+      font-weight:600;
+    }
+    
+    @keyframes glow{
+      from{filter:drop-shadow(0 0 10px rgba(255,215,0,0.5))}
+      to{filter:drop-shadow(0 0 20px rgba(255,215,0,0.8))}
+    }
+    
+    h2{
+      font-size:36px;
+      font-weight:800;
+      margin-bottom:25px;
+      color:var(--lego-yellow);
+      text-transform:uppercase;
+      letter-spacing:2px;
+      text-shadow:0 0 10px rgba(255,215,0,0.5);
+      border-left:6px solid var(--lego-orange);
+      padding-left:15px;
+    }
+    
+    h3{
+      font-size:24px;
+      font-weight:700;
+      margin:20px 0 15px 0;
+      color:var(--accent);
+      text-shadow:0 0 8px rgba(0,242,255,0.4);
+    }
+    
+    .card{
+      background:linear-gradient(135deg, rgba(45,27,105,0.9) 0%, rgba(26,0,51,0.9) 100%);
+      border:3px solid var(--accent);
+      border-radius:16px;
+      padding:30px;
+      margin-bottom:30px;
+      box-shadow:var(--brick-shadow), var(--glow);
+      position:relative;
+      overflow:hidden;
+    }
+    
+    .card::before{
+      content:'';
+      position:absolute;
+      top:-2px;
+      left:20%;
+      width:60%;
+      height:8px;
+      background:linear-gradient(90deg, 
+        transparent 0%, 
+        transparent 15%, 
+        rgba(255,255,255,0.3) 15%, 
+        rgba(255,255,255,0.3) 35%, 
+        transparent 35%,
+        transparent 65%,
+        rgba(255,255,255,0.3) 65%,
+        rgba(255,255,255,0.3) 85%,
+        transparent 85%
+      );
+      border-radius:0 0 4px 4px;
+    }
+    
+    p, li{
+      line-height:1.8;
+      margin-bottom:15px;
+      color:var(--text);
+      font-size:16px;
+    }
+    
+    ul{
+      margin-left:25px;
+      margin-bottom:20px;
+    }
+    
+    li{
+      margin-bottom:10px;
+    }
+    
+    .highlight{
+      background:linear-gradient(90deg, rgba(255,215,0,0.2), rgba(255,103,0,0.2));
+      border-left:4px solid var(--lego-yellow);
+      padding:20px;
+      border-radius:8px;
+      margin:20px 0;
+    }
+    
+    .component-grid{
+      display:grid;
+      grid-template-columns:repeat(2, 1fr);
+      gap:20px;
+      margin:25px 0;
+    }
+    
+    .component-box{
+      background:rgba(0,85,191,0.2);
+      border:2px solid var(--lego-blue);
+      border-radius:12px;
+      padding:20px;
+      text-align:center;
+    }
+    
+    .component-box h4{
+      color:var(--lego-yellow);
+      font-size:20px;
+      margin-bottom:10px;
+      font-weight:700;
+    }
+    
+    .component-box .icon{
+      font-size:48px;
+      margin-bottom:15px;
+    }
+    
+    table{
+      width:100%;
+      border-collapse:collapse;
+      margin:20px 0;
+      background:rgba(0,0,0,0.3);
+      border-radius:8px;
+      overflow:hidden;
+    }
+    
+    th{
+      background:linear-gradient(135deg, var(--lego-blue), var(--lego-green));
+      color:var(--text);
+      padding:15px;
+      text-align:left;
+      font-weight:700;
+      text-transform:uppercase;
+      font-size:14px;
+      letter-spacing:1px;
+    }
+    
+    td{
+      padding:15px;
+      border-bottom:1px solid rgba(255,255,255,0.1);
+      color:var(--text);
+    }
+    
+    tr:last-child td{
+      border-bottom:none;
+    }
+    
+    .tag{
+      display:inline-block;
+      background:var(--lego-green);
+      color:var(--text);
+      padding:6px 12px;
+      border-radius:20px;
+      font-size:13px;
+      font-weight:700;
+      margin:5px;
+      box-shadow:0 3px 0 rgba(0,0,0,0.3);
+    }
+    
+    .steps{
+      counter-reset:step;
+      list-style:none;
+      margin-left:0;
+    }
+    
+    .steps li{
+      counter-increment:step;
+      position:relative;
+      padding-left:50px;
+      margin-bottom:25px;
+    }
+    
+    .steps li::before{
+      content:counter(step);
+      position:absolute;
+      left:0;
+      top:0;
+      background:linear-gradient(135deg, var(--lego-orange), var(--lego-red));
+      width:35px;
+      height:35px;
+      border-radius:50%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:900;
+      font-size:18px;
+      box-shadow:0 4px 0 rgba(0,0,0,0.3);
+    }
+    
+    .impact-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(250px, 1fr));
+      gap:20px;
+      margin:25px 0;
+    }
+    
+    .impact-card{
+      background:linear-gradient(135deg, rgba(0,166,81,0.3), rgba(0,85,191,0.3));
+      border:2px solid var(--lego-green);
+      border-radius:12px;
+      padding:20px;
+      text-align:center;
+      transition:transform 0.3s ease;
+    }
+    
+    .impact-card:hover{
+      transform:translateY(-8px);
+      box-shadow:0 8px 20px rgba(0,166,81,0.4);
+    }
+    
+    .impact-card .emoji{
+      font-size:40px;
+      margin-bottom:10px;
+    }
+    
+    .impact-card h4{
+      color:var(--lego-yellow);
+      font-size:18px;
+      margin-bottom:10px;
+    }
+    
+    .video-container{
+      margin:30px 0;
+      text-align:center;
+      position:relative;
+      border-radius:16px;
+      overflow:hidden;
+      box-shadow:var(--brick-shadow), var(--glow);
+      border:3px solid var(--accent);
+    }
+    
+    .video-container video{
+      width:100%;
+      max-width:800px;
+      height:auto;
+      border-radius:12px;
+      background:rgba(0,0,0,0.8);
+    }
+    
+    .video-container h4{
+      color:var(--lego-yellow);
+      font-size:22px;
+      font-weight:700;
+      margin:15px 0 20px 0;
+      text-shadow:0 0 10px rgba(255,215,0,0.5);
+    }
+    
+    @media(max-width:900px){
+      .hero h1{font-size:36px}
+      .hero .subtitle{font-size:18px}
+      h2{font-size:28px}
+      .component-grid, .impact-grid{grid-template-columns:1fr}
+      nav ul{gap:15px}
+      nav a{font-size:14px;padding:6px 12px}
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="container">
+      <div class="logo">TEAM MEGAMINDS</div>
+      <ul>
+        <li><a href="index.html">Team</a></li>
+        <li><a href="project.html" class="active">Project</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <h1>Project EARTHGUARD</h1>
+        <p class="subtitle">Preserving the Past, Protecting the Future</p>
+        <p class="theme">FIRST LEGO League 2025 – UNEARTHED Theme</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <!-- Problem Section -->
+        <div class="card">
+          <h2>🌊 The Problem</h2>
+          <p>Coastal archaeological sites worldwide are vanishing at an alarming rate due to the combined effects of <strong>climate change</strong>, <strong>sea-level rise</strong>, and <strong>increasing storm frequency</strong>. These coastal areas contain invaluable cultural, historical, and scientific data that provide insights into ancient civilizations.</p>
+          
+          <h3>Why Are Sea Levels Rising?</h3>
+          <ul>
+            <li><strong>Thermal Expansion</strong> – Ocean water absorbs heat and expands, increasing water volume</li>
+            <li><strong>Melting Glaciers and Ice Sheets</strong> – Greenland and Antarctic ice sheets melting rapidly</li>
+            <li><strong>Groundwater Extraction</strong> – Pumped groundwater eventually flows into the ocean</li>
+            <li><strong>Feedback Loops</strong> – Melting ice reduces Earth's reflectivity, causing faster warming</li>
+          </ul>
+          
+          <div class="highlight">
+            <strong>📊 Critical Data:</strong> NASA and NOAA data show that global sea levels have risen by <strong>20+ cm since 1900</strong> and the rate is accelerating.
+          </div>
+          
+          <h3>Impact on Archaeological Heritage</h3>
+          <p>Rising tides, erosion, and saltwater intrusion damage artifacts, weaken structures, and submerge excavation sites. Examples include Viking settlements in Greenland, submerged Roman ports, and eroding shell mounds in Florida — all representing irreplaceable losses of human history.</p>
+        </div>
+
+        <!-- Solution Section -->
+        <div class="card">
+          <h2>💡 Our Innovative Solution</h2>
+          <p>Project EARTHGUARD combines <strong>LIDAR Monitoring Drones</strong> and <strong>Carbon Capture Barriers</strong> into one integrated system to protect and monitor endangered archaeological sites.</p>
+          
+          <div class="component-grid">
+            <div class="component-box">
+              <div class="icon">🚁</div>
+              <h4>LIDAR Monitoring Drones</h4>
+              <p>Emit rapid laser pulses to create 3D terrain models, detecting even minor erosion or flooding with early warning alerts.</p>
+            </div>
+            <div class="component-box">
+              <div class="icon">🛡️</div>
+              <h4>Carbon Capture Barriers</h4>
+              <p>Made from biochar, oyster shells, and plant fibers. Absorb CO₂, slow wave energy, and encourage vegetation growth.</p>
+            </div>
+          </div>
+
+          <h3>How It Works: Integration Process</h3>
+          <ol class="steps">
+            <li>LIDAR drones collect terrain and erosion data</li>
+            <li>Software identifies critical erosion zones</li>
+            <li>Carbon Capture Barriers are placed strategically</li>
+            <li>Continuous monitoring measures CO₂ reduction and soil stabilization</li>
+            <li>Feedback loop improves coastal resilience over time</li>
+          </ol>
+        </div>
+
+        <!-- LEGO Model Section -->
+        <div class="card">
+          <h2>🧱 LEGO Model Demonstration</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Component</th>
+                <th>Represents</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Blue Plates</td>
+                <td>Ocean and waves</td>
+              </tr>
+              <tr>
+                <td>Brown/Tan Bricks</td>
+                <td>Coastal soil and ruins</td>
+              </tr>
+              <tr>
+                <td>Green Pieces</td>
+                <td>Vegetation and bio-barriers</td>
+              </tr>
+              <tr>
+                <td>Ultrasonic Sensor</td>
+                <td>Simulated LIDAR</td>
+              </tr>
+              <tr>
+                <td>Medium Motor</td>
+                <td>Rotating scanner</td>
+              </tr>
+              <tr>
+                <td>Color Sensor</td>
+                <td>Detects CO₂ levels</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="video-container">
+            <h4>🎬 Project EARTHGUARD Demo Video</h4>
+            <video controls preload="metadata" width="800" height="450">
+              <source src="videos/earthguard-demo.mp4" type="video/mp4">
+              <source src="videos/earthguard-demo.webm" type="video/webm">
+              <p>Your browser doesn't support HTML5 video. <a href="videos/earthguard-demo.mp4" download>Download the video</a> instead.</p>
+            </video>
+          </div>
+
+          <h3>Demo Process</h3>
+          <ol class="steps">
+            <li>Simulate erosion with fan or motion</li>
+            <li>Deploy green LEGO barriers along the coast</li>
+            <li>Activate rover (LIDAR) to scan terrain</li>
+            <li>Color sensor detects CO₂ (dark tiles)</li>
+            <li>LED lights turn green, showing reduced erosion</li>
+          </ol>
+        </div>
+
+        <!-- Impact Section -->
+        <div class="card">
+          <h2>🌍 Real-World Impact</h2>
+          <div class="impact-grid">
+            <div class="impact-card">
+              <div class="emoji">🔍</div>
+              <h4>Non-Invasive Monitoring</h4>
+              <p>Protect coastal archaeology without disturbing sites</p>
+            </div>
+            <div class="impact-card">
+              <div class="emoji">🌱</div>
+              <h4>Carbon Sequestration</h4>
+              <p>Natural barriers that absorb CO₂</p>
+            </div>
+            <div class="impact-card">
+              <div class="emoji">🤝</div>
+              <h4>Community Engagement</h4>
+              <p>Local participation in preservation</p>
+            </div>
+            <div class="impact-card">
+              <div class="emoji">🎯</div>
+              <h4>UN SDG Support</h4>
+              <p>Aligns with Goals 13 and 15</p>
+            </div>
+          </div>
+
+          <h3>Future Vision</h3>
+          <ul>
+            <li>🤖 AI-based erosion prediction algorithms</li>
+            <li>☀️ Solar-powered autonomous drones</li>
+            <li>🌐 Global heritage monitoring platform</li>
+            <li>📱 Mobile app for community reporting</li>
+          </ul>
+        </div>
+
+        <!-- Research Insights -->
+        <div class="card">
+          <h2>📚 Research Insights</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Research Topic</th>
+                <th>Key Findings</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Climate Science</td>
+                <td>Sea-level rise results from global warming and ice melt accelerated by greenhouse gases</td>
+              </tr>
+              <tr>
+                <td>Archaeological Preservation</td>
+                <td>Conventional excavation cannot prevent erosion. Continuous monitoring is essential</td>
+              </tr>
+              <tr>
+                <td>LIDAR Technology</td>
+                <td>Uses laser pulses to create 3D maps, detecting erosion or buried structures</td>
+              </tr>
+              <tr>
+                <td>Carbon Capture</td>
+                <td>Captures CO₂, slows climate change, and stabilizes soil naturally</td>
+              </tr>
+              <tr>
+                <td>Sustainable Barriers</td>
+                <td>Biochar and oyster shells absorb CO₂ and reinforce coastal soils</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Core Values -->
+        <div class="card">
+          <h2>⭐ Team Reflection & Core Values</h2>
+          <p>FLL taught us that technology can protect history and the planet simultaneously. We learned teamwork, creativity, and the importance of continuous learning.</p>
+          
+          <div style="text-align:center; margin-top:20px">
+            <span class="tag">🔍 Discovery</span>
+            <span class="tag">💡 Innovation</span>
+            <span class="tag">🎯 Impact</span>
+            <span class="tag">🤝 Inclusion</span>
+            <span class="tag">👥 Teamwork</span>
+            <span class="tag">🎉 Fun</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

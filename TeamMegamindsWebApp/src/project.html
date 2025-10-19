@@ -352,6 +352,32 @@
       margin-bottom:10px;
     }
     
+    .video-container{
+      margin:30px 0;
+      text-align:center;
+      position:relative;
+      border-radius:16px;
+      overflow:hidden;
+      box-shadow:var(--brick-shadow), var(--glow);
+      border:3px solid var(--accent);
+    }
+    
+    .video-container video{
+      width:100%;
+      max-width:800px;
+      height:auto;
+      border-radius:12px;
+      background:rgba(0,0,0,0.8);
+    }
+    
+    .video-container h4{
+      color:var(--lego-yellow);
+      font-size:22px;
+      font-weight:700;
+      margin:15px 0 20px 0;
+      text-shadow:0 0 10px rgba(255,215,0,0.5);
+    }
+    
     @media(max-width:900px){
       .hero h1{font-size:36px}
       .hero .subtitle{font-size:18px}
@@ -470,6 +496,15 @@
               </tr>
             </tbody>
           </table>
+
+          <div class="video-container">
+            <h4>🎬 Project EARTHGUARD Demo Video</h4>
+            <video controls preload="metadata" width="800" height="450">
+              <source src="videos/earthguard-demo.mp4" type="video/mp4">
+              <source src="videos/earthguard-demo.webm" type="video/webm">
+              <p>Your browser doesn't support HTML5 video. <a href="videos/earthguard-demo.mp4" download>Download the video</a> instead.</p>
+            </video>
+          </div>
 
           <h3>Demo Process</h3>
           <ol class="steps">
