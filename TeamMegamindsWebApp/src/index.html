@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Team Megaminds • FLL 2025 UNEARTHED — Project EARTHGUARD</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --lego-red:#D91E1E;
+      --lego-blue:#0055BF;
+      --lego-yellow:#FFD700;
+      --lego-green:#00A651;
+      --lego-orange:#FF6700;
+      --bg:#1a0033;
+      --card-bg:linear-gradient(135deg, #2d1b69 0%, #1a0033 100%);
+      --text:#ffffff;
+      --muted:#b8b8ff;
+      --accent:#00f2ff;
+      --glow:0 0 20px rgba(0,242,255,0.3);
+      --brick-shadow:0 6px 0 rgba(0,0,0,0.3), 0 8px 20px rgba(0,0,0,0.4);
+    }
+    
+    *{box-sizing:border-box;margin:0;padding:0}
+    
+    body{
+      margin:0;
+      background:linear-gradient(135deg, #1a0033 0%, #0f001a 50%, #2d1b69 100%);
+      background-attachment:fixed;
+      color:var(--text);
+      font-family:'Poppins',sans-serif;
+      position:relative;
+      overflow-x:hidden;
+    }
+    
+    body::before{
+      content:'';
+      position:fixed;
+      top:0;
+      left:0;
+      right:0;
+      bottom:0;
+      background-image:
+        radial-gradient(circle at 20% 50%, rgba(217,30,30,0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(0,85,191,0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 20%, rgba(255,215,0,0.08) 0%, transparent 50%);
+      pointer-events:none;
+      z-index:0;
+    }
+    
+    .container{
+      max-width:1200px;
+      margin:0 auto;
+      padding:50px 20px;
+      position:relative;
+      z-index:1;
+    }
+    
+    h2{
+      font-size:48px;
+      font-weight:900;
+      margin-bottom:20px;
+      text-align:center;
+      background:linear-gradient(90deg, var(--lego-yellow), var(--lego-orange), var(--lego-red));
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+      background-clip:text;
+      text-transform:uppercase;
+      letter-spacing:3px;
+      filter:drop-shadow(0 0 10px rgba(255,215,0,0.5));
+      animation:glow 2s ease-in-out infinite alternate;
+    }
+    
+    @keyframes glow{
+      from{filter:drop-shadow(0 0 10px rgba(255,215,0,0.5))}
+      to{filter:drop-shadow(0 0 20px rgba(255,215,0,0.8))}
+    }
+    
+    h3{
+      margin:0 0 15px 0;
+      font-size:20px;
+      font-weight:700;
+      text-transform:uppercase;
+      letter-spacing:1.5px;
+      color:var(--lego-yellow);
+      text-shadow:0 0 10px rgba(255,215,0,0.5);
+    }
+    
+    .card{
+      background:linear-gradient(135deg, rgba(45,27,105,0.9) 0%, rgba(26,0,51,0.9) 100%);
+      border:3px solid var(--accent);
+      border-radius:16px;
+      padding:25px;
+      box-shadow:var(--brick-shadow), var(--glow);
+      position:relative;
+      transition:transform 0.3s ease, box-shadow 0.3s ease;
+      overflow:hidden;
+    }
+    
+    .card::before{
+      content:'';
+      position:absolute;
+      top:-2px;
+      left:20%;
+      width:60%;
+      height:8px;
+      background:linear-gradient(90deg, 
+        transparent 0%, 
+        transparent 15%, 
+        rgba(255,255,255,0.3) 15%, 
+        rgba(255,255,255,0.3) 35%, 
+        transparent 35%,
+        transparent 65%,
+        rgba(255,255,255,0.3) 65%,
+        rgba(255,255,255,0.3) 85%,
+        transparent 85%
+      );
+      border-radius:0 0 4px 4px;
+    }
+    
+    .card:hover{
+      transform:translateY(-8px) scale(1.02);
+      box-shadow:0 8px 0 rgba(0,0,0,0.3), 0 12px 30px rgba(0,242,255,0.4);
+    }
+    
+    .grid{display:grid;gap:25px}
+    .three{grid-template-columns:repeat(3,1fr)}
+    .two{grid-template-columns:repeat(2,1fr)}
+    
+    .photo{
+      width:100%;
+      aspect-ratio:1/1;
+      border-radius:12px;
+      background:linear-gradient(135deg, var(--lego-blue) 0%, var(--lego-green) 100%);
+      border:4px solid var(--lego-yellow);
+      display:grid;
+      place-items:center;
+      color:var(--text);
+      margin-bottom:12px;
+      font-weight:700;
+      font-size:14px;
+      text-transform:uppercase;
+      box-shadow:0 4px 0 rgba(0,0,0,0.3), inset 0 -3px 10px rgba(0,0,0,0.2);
+      position:relative;
+      overflow:hidden;
+    }
+    
+    .photo::before{
+      content:'';
+      position:absolute;
+      top:8px;
+      left:50%;
+      transform:translateX(-50%);
+      width:70%;
+      height:20%;
+      background:radial-gradient(ellipse at center, rgba(255,255,255,0.3) 0%, transparent 70%);
+      border-radius:50%;
+    }
+    
+    .photo::after{
+      content:'🎮';
+      position:absolute;
+      font-size:40px;
+      opacity:0.3;
+    }
+    
+    .photo.coach-photo{
+      width:60%;
+      margin:0 auto 12px auto;
+    }
+    
+    .description{
+      font-size:13px;
+      color:var(--muted);
+      text-align:center;
+      line-height:1.6;
+      margin-top:8px;
+      padding:0 8px;
+      font-weight:400;
+    }
+    
+    .team-photo{
+      width:100%;
+      aspect-ratio:3/1.2;
+      border-radius:20px;
+      background:linear-gradient(135deg, var(--lego-red) 0%, var(--lego-orange) 50%, var(--lego-yellow) 100%);
+      border:5px solid var(--lego-blue);
+      display:grid;
+      place-items:center;
+      color:var(--text);
+      margin:30px 0;
+      font-weight:900;
+      font-size:28px;
+      text-transform:uppercase;
+      box-shadow:var(--brick-shadow);
+      position:relative;
+      overflow:hidden;
+    }
+    
+    .team-photo::before{
+      content:'🤖 🔧 ⚙️';
+      position:absolute;
+      font-size:60px;
+      opacity:0.2;
+      letter-spacing:40px;
+    }
+    
+    ul{list-style:none;padding:0;margin:0}
+    li{margin-bottom:8px}
+    
+    .small{
+      font-size:16px;
+      color:var(--muted);
+      text-align:center;
+      font-weight:600;
+    }
+    
+    .small strong{
+      color:var(--lego-yellow);
+      font-size:20px;
+      text-shadow:0 0 10px rgba(255,215,0,0.6);
+    }
+    
+    p{
+      text-align:center;
+      font-weight:600;
+      margin:0;
+    }
+    
+    p strong{
+      color:var(--accent);
+      font-size:16px;
+      text-shadow:0 0 8px rgba(0,242,255,0.5);
+    }
+    
+    @keyframes float{
+      0%, 100%{transform:translateY(0px)}
+      50%{transform:translateY(-10px)}
+    }
+    
+    nav{
+      background:rgba(26,0,51,0.95);
+      border-bottom:3px solid var(--accent);
+      padding:20px 0;
+      position:sticky;
+      top:0;
+      z-index:100;
+      backdrop-filter:blur(10px);
+    }
+    
+    nav .nav-container{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      max-width:1200px;
+      margin:0 auto;
+      padding:0 20px;
+    }
+    
+    nav .logo{
+      font-size:24px;
+      font-weight:900;
+      background:linear-gradient(90deg, var(--lego-yellow), var(--lego-orange));
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+      background-clip:text;
+    }
+    
+    nav ul{
+      display:flex;
+      gap:30px;
+      list-style:none;
+      margin:0;
+      padding:0;
+    }
+    
+    nav a{
+      color:var(--text);
+      text-decoration:none;
+      font-weight:600;
+      transition:all 0.3s ease;
+      padding:8px 16px;
+      border-radius:8px;
+    }
+    
+    nav a:hover, nav a.active{
+      background:var(--accent);
+      color:#1a0033;
+      box-shadow:0 0 15px rgba(0,242,255,0.5);
+    }
+    
+    .card:nth-child(odd){animation:float 3s ease-in-out infinite}
+    .card:nth-child(even){animation:float 3s ease-in-out infinite 1.5s}
+    
+    @media(max-width:900px){
+      .three,.two{grid-template-columns:1fr}
+      h2{font-size:32px}
+      .team-photo::before{font-size:40px;letter-spacing:20px}
+      nav ul{gap:15px}
+      nav a{font-size:14px;padding:6px 12px}
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav-container">
+      <div class="logo">TEAM MEGAMINDS</div>
+      <ul>
+        <li><a href="index.html" class="active">Team</a></li>
+        <li><a href="project.html">Project</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+    <section id="team">
+      <div class="container">
+        <h2>Meet Team Megaminds</h2>
+        <div class="team-photo">Team Photo Placeholder</div>
+
+        <div class="grid two" style="margin-top:20px">
+          <div class="card">
+            <h3>Coach</h3>
+            <div class="photo coach-photo">Photo</div>
+            <p><strong>Nitin</strong></p>
+            <p class="description">Leading Team Megaminds with passion and dedication to robotics excellence.</p>
+          </div>
+          <div class="card">
+            <h3>Co-Coach</h3>
+            <div class="photo coach-photo">Photo</div>
+            <p><strong>Phani</strong></p>
+            <p class="description">Supporting the team's journey in innovation and problem-solving.</p>
+          </div>
+        </div>
+
+        <p class="small" style="margin-top:20px">Team Lead: <strong>Aarav</strong></p>
+        <div class="grid two" style="margin-top:20px">
+          <div class="card">
+            <h3>Project Team</h3>
+            <div class="grid three">
+              <div>
+                <div class="photo">Photo</div>
+                <p><strong>Lishitha</strong></p>
+                <p class="description">Research specialist focusing on environmental solutions.</p>
+              </div>
+              <div>
+                <div class="photo">Photo</div>
+                <p><strong>Samaira</strong></p>
+                <p class="description">Creative designer bringing innovative ideas to life.</p>
+              </div>
+              <div>
+                <div class="photo">Photo</div>
+                <p><strong>Agrima</strong></p>
+                <p class="description">Presentation expert and team communicator.</p>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <h3>Coding Team</h3>
+            <div class="grid three">
+              <div>
+                <div class="photo">Photo</div>
+                <p><strong>Aarav</strong></p>
+                <p class="description">Lead programmer and team captain.</p>
+              </div>
+              <div>
+                <div class="photo">Photo</div>
+                <p><strong>Sanika</strong></p>
+                <p class="description">Algorithm expert and debugging specialist.</p>
+              </div>
+              <div>
+                <div class="photo">Photo</div>
+                <p><strong>Jai</strong></p>
+                <p class="description">Sensor integration and automation wizard.</p>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <h3>Building Team</h3>
+            <div class="grid three">
+              <div>
+                <div class="photo">Photo</div>
+                <p><strong>Samirth</strong></p>
+                <p class="description">Mechanical design and structure engineer.</p>
+              </div>
+              <div>
+                <div class="photo">Photo</div>
+                <p><strong>Vihaan</strong></p>
+                <p class="description">Robot assembly and optimization expert.</p>
+              </div>
+              <div>
+                <div class="photo">Photo</div>
+                <p><strong>Aakshi</strong></p>
+                <p class="description">Testing and quality assurance specialist.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
